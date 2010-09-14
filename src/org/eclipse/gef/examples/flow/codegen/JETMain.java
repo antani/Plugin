@@ -6,6 +6,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -99,6 +100,11 @@ public class JETMain {
 	      System.out.println(config.getClasspathVariable());
 	      
 	      emitter.addVariable(config.getClasspathVariable(), config.getPluginId());
+	      List clList = emitter.getClasspathEntries();
+	      for(int i=0; i< clList.size();i++){
+	    	 System.out.println(">>>>"  +  clList.get(i).toString());
+	    	  
+	      }
 	  
 	      Monitor sub = new BasicMonitor.EclipseSubProgress(monitor, 1);
 	      String result = emitter.generate(sub, new Object []{ config.getModel() });
@@ -133,7 +139,7 @@ public class JETMain {
 	      JETEmitter emitter = new JETEmitter(base+relativeUri, getClass().getClassLoader());
 	      System.out.println(config.getClasspathVariable());
 	      
-	      emitter.addVariable(config.getClasspathVariable(), config.getPluginId());
+	     // emitter.addVariable(config.getClasspathVariable(), config.getPluginId());
 	  
 	      Monitor sub = new BasicMonitor.EclipseSubProgress(monitor, 1);
 	      String result = emitter.generate(sub, new Object []{ config.getModel() });
