@@ -1,0 +1,33 @@
+<%@ jet package="translated" imports="org.eclipse.gef.examples.flow.model.*" class="NetAppFlowMain" %>
+<% CodegenVariables type = (CodegenVariables) argument; %> 
+import netapp.manage.*;
+/**
+ * This final class implements a type-safe enumeration
+ * over the valid instances of a <%=type.getClassName()%>.
+ * Instances of this class are immutable.
+ * 
+<% if (type.getAuthor().length() > 0) { %>
+ * @author <%=type.getAuthor()%>
+<% } %>
+<% if (type.getVersion().length() > 0) { %>
+ * @version <%=type.getVersion()%>
+<% } %>
+ */
+
+public class <%=type.getClassName()%> {
+
+     /**
+    * The default HTTP and HTTPS port numbers for the DFM server.
+    */
+    private static final int DEFAULT_DFM_HTTP_PORT = 8088;
+    private static final int DEFAULT_DFM_HTTPS_PORT = 8488;
+    
+    public static void main(String args[]) throws Exception {
+        String server = "<%= type.getHost() %>";
+        String username = "<%= type.getUsername() %>";
+        String password = "<%= type.getPassword() %>";
+    
+        //System.out.println(helloDfm(server,username,password));
+    }   
+    
+} 

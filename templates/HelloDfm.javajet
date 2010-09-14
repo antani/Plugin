@@ -1,0 +1,39 @@
+<%@ jet package="translated" class="HelloDfm" %>
+import netapp.manage.*;
+
+public class HelloDfm
+{
+
+    private static String helloDfm(String host, String username, String password)
+    {
+        try {
+			//Initialize connection to server, and
+			//request version 1.0 of the API set
+			//
+            NaElement requestElem;
+            NaElement responseElem;
+            NaServer  s;
+
+			s = new NaServer(host,1,0);
+			s.setStyle(NaServer.STYLE_LOGIN_PASSWORD);
+			s.setTransportType(NaServer.TRANSPORT_TYPE_HTTP);
+			s.setServerType(NaServer.SERVER_TYPE_DFM);
+			s.setPort(8088);
+			s.setAdminUser(username, password);
+
+			//Invokes ONTAPI API to get the DFM server version
+			requestElem = new NaElement("dfm-about");
+
+			responseElem = s.invokeElem(requestElem);
+			System.out.print("Hello world!  DFM Server version is: ");
+			System.out.println(responseElem.getChildContent("version"));            
+			s.close();
+		}
+		catch (Exception e) {
+			System.err.println(e.toString());
+			System.exit(1);
+		}
+        return responseElem.getChildContent("version").toString());
+    }
+
+}

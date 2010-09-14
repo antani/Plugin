@@ -1,0 +1,11 @@
+<%@ jet package="translated" class="NetAppFlowMain" %>
+public class NetAppFlowMain {
+
+    private static final int DEFAULT_DFM_HTTP_PORT = 9999;
+    private static final int DEFAULT_DFM_HTTPS_PORT = 8488;
+    public static void main(String args[]) throws Exception 
+    {
+        System.out.println("test");
+    }   
+    
+} 
