@@ -15,6 +15,10 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.examples.flow.model.Activity;
 import org.eclipse.gef.examples.flow.model.StructuredActivity;
 import org.eclipse.gef.examples.flow.model.Task;
+import org.eclipse.gef.examples.flow.ui.dialog.TaskList;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * @author Daniel Lee
@@ -30,11 +34,23 @@ private int index = -1;
  */
 public void execute() {
 	System.out.println("Created a node");
-	
+	showTaskList();
 	if (index > 0)
 		parent.addChild(child, index);
 	else
 		parent.addChild(child);
+}
+
+private void showTaskList() {
+	try {
+		Display display = Display.getDefault();
+		Shell shell = new Shell(display);
+		TaskList inst = new TaskList(shell, SWT.NULL);
+		inst.open();
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	
 }
 
 /**

@@ -21,7 +21,7 @@ public class Task extends Activity
 
 protected static IPropertyDescriptor[] descriptors;
 
-public static final String NAME = "NetApp Task 1"; //$NON-NLS-1$
+public static final String NAME = "NetApp Task"; //$NON-NLS-1$
 static {
 	descriptors = new IPropertyDescriptor[] {
 		new TextPropertyDescriptor(NAME, "Name")};
@@ -29,7 +29,7 @@ static {
 
 static final long serialVersionUID = 1;
 private List inputs = new ArrayList();
-private String name = "NetApp Task 1";
+private String name = "NetApp Task";
 private List outputs = new ArrayList();
 private int sortIndex;
 
