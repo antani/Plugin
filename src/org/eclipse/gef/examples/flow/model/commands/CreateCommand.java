@@ -34,23 +34,30 @@ private int index = -1;
  */
 public void execute() {
 	System.out.println("Created a node");
-	showTaskList();
+	String selectedTask = showTaskList();
+	if(selectedTask != null){
+		child.setName(selectedTask);
+	}
 	if (index > 0)
 		parent.addChild(child, index);
 	else
 		parent.addChild(child);
 }
 
-private void showTaskList() {
+private String showTaskList() {
+	String selectedTask = "";
 	try {
 		Display display = Display.getDefault();
 		Shell shell = new Shell(display);
 		TaskList inst = new TaskList(shell, SWT.NULL);
 		inst.open();
+		selectedTask= inst.getSelectedTask();
+		System.out.println("Selected task : " + selectedTask);
+		
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
-	
+	return selectedTask;
 }
 
 /**
