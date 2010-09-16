@@ -32,6 +32,20 @@ public class TaskList extends org.eclipse.swt.widgets.Dialog {
 	private Label TaskLbl;
 	private Combo TaskCmb;
 	private Button closeBtn;
+	private String selectedTask;
+	/**
+	 * @return the selectedTask
+	 */
+	public String getSelectedTask() {
+		return selectedTask;
+	}
+
+	/**
+	 * @param selectedTask the selectedTask to set
+	 */
+	public void setSelectedTask(String selectedTask) {
+		this.selectedTask = selectedTask;
+	}
 
 	/**
 	* Auto-generated main method to display this 
@@ -87,6 +101,17 @@ public class TaskList extends org.eclipse.swt.widgets.Dialog {
 				TaskCmb.setLayoutData(TaskCmbLData);
 				TaskCmb.setText("NetAppTasks");
 				TaskCmb.setItems(new java.lang.String[] {"HelloDfm"," Task1"," Task2"});
+				selectedTask ="";
+				TaskCmb.addSelectionListener(new SelectionAdapter() {
+					public void widgetSelected(SelectionEvent evt) {
+						System.out.println("TaskCmb.widgetSelected, event="+evt);
+						int selected = TaskCmb.getSelectionIndex();
+						if(selected != -1){
+							setSelectedTask(TaskCmb.getItem(selected));
+							
+						}
+					}
+				});
 			}
 			{
 				TaskLbl = new Label(dialogShell, SWT.NONE);
