@@ -47,20 +47,20 @@ public Transition(Activity source, Activity target) {
 	Config config = Config.getInstance();
 	JETMain gateway = new JETMain(config);
     String content = null;
-//	try {
-//		content = gateway.generateAll(null,"");
-//	} catch (CoreException e) {
-//		// TODO Auto-generated catch block
-//		e.printStackTrace();
-//	}
-//	try {
-//		
-//		//config.setTargetFile("HelloDfm.java");
-//		IFile file = gateway.save(null, content.getBytes());
-//	} catch (CoreException e) {
-//		// TODO Auto-generated catch block
-//		e.printStackTrace();
-//	}
+	try {
+		content = gateway.generateAll(null,"");
+	} catch (CoreException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	try {
+		
+		config.setTargetFile("HelloDfm.java");
+		IFile file = gateway.save(null, content.getBytes());
+	} catch (CoreException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
     
 }
 
