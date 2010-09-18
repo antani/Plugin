@@ -10,11 +10,24 @@
  *******************************************************************************/
 package org.eclipse.gef.examples.flow.model;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Scanner;
+
 import org.eclipse.emf.common.util.BasicMonitor;
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.gef.examples.flow.codegen.Config;
 import org.eclipse.gef.examples.flow.codegen.JETMain;
@@ -50,17 +63,39 @@ public Transition(Activity source, Activity target) {
 	try {
 		content = gateway.generateAll(null,"");
 	} catch (CoreException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-	try {
-		
+	try {		
 		config.setTargetFile("HelloDfm.java");
 		IFile file = gateway.save(null, content.getBytes());
 	} catch (CoreException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
+	//Find main file
+	String base = Platform.getBundle(config.getPluginId()).getEntry("/").toString();
+    String relativeUri = "com/netapp/nmsdk/flow/NetAppFlowMain.java";
+//    String f="";
+//	try {
+//		f = Platform.resolve(Platform.find(Platform.getBundle(config.getPluginId()), new Path(relativeUri))).getFile();
+//	} catch (IOException e1) {
+//		// TODO Auto-generated catch block
+//		e1.printStackTrace();
+//	}
+//    //IResource 
+	System.out.println("base+rel" + base+relativeUri);
+//	System.out.println("f - " + f);    
+	
+	
+//	try {
+//		Scanner scanner = new Scanner(mainFile);
+//		while(scanner.hasNextLine()){
+//			String line = scanner.nextLine();
+//			System.out.println("Line:" +line);
+//		}
+//	} catch (FileNotFoundException e) {
+//		// TODO Auto-generated catch block
+//		e.printStackTrace();
+//	}
     
 }
 
