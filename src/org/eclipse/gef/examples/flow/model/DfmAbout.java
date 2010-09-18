@@ -19,6 +19,8 @@ public class DfmAbout extends Activity {
 	private String name = "DFM About";
 	private List outputs = new ArrayList();
 	private int sortIndex;
+	private String injectStart="/*Custom Code Start 1 */";
+	private String injectEnd="/*Custom Code End 1 */";
 	protected static IPropertyDescriptor[] descriptors;
 
 	public static final String NAME = "name"; //$NON-NLS-1$
@@ -143,7 +145,18 @@ public class DfmAbout extends Activity {
 	public void resetPropertyValue(Object id)
 	{
 	}
-
+	/**
+	 * @return the injectStart
+	 */
+	public String getInjectStart() {
+		return injectStart;
+	}
+	/**
+	 * @param injectStart the injectStart to set
+	 */
+	public void setInjectStart(String injectStart) {
+		this.injectStart = injectStart;
+	}
 	
 	
 }
