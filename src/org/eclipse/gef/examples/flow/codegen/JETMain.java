@@ -135,18 +135,13 @@ public class JETMain {
 	      
 	      String templateFullUri= config.getTemplateFullUri();
 	      System.out.println("templateFullUri -- "+ base+relativeUri);	      
-	      //templateFullUri = "C:\\runtime-EclipseApplication\\templates\\NetAppFlowMain.javajet";
 	      JETEmitter emitter = new JETEmitter(base+relativeUri, getClass().getClassLoader());
 	      System.out.println(config.getClasspathVariable());
 	      
 	     // emitter.addVariable(config.getClasspathVariable(), config.getPluginId());
-	  
 	      Monitor sub = new BasicMonitor.EclipseSubProgress(monitor, 1);
 	      String result = emitter.generate(sub, new Object []{ config.getModel() });
 	      monitor.worked(1);
-	      
-	      
-	      
 	      return result;
 	    }
 	    catch (JETException exception)
