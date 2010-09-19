@@ -10,8 +10,10 @@
  *******************************************************************************/
 package org.eclipse.gef.examples.flow.model;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Scanner;
@@ -20,7 +22,9 @@ import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -84,19 +88,47 @@ public Transition(Activity source, Activity target) {
 //    //IResource 
 	System.out.println("base+rel" + base+relativeUri);
 //	System.out.println("f - " + f);    
+	IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+	System.out.println("root workspace : " + root.getName());
+	//System.out.println("project name : " + root.getProject().getName());
+	IResource resourceInRuntimeWorkspace = root.findMember("testplugin/com/netapp/nmsdk/flow/NetAppFlowMain.java");
+	//System.out.println(resourceInRuntimeWorkspace.getName());
+	File mainFile = new File(resourceInRuntimeWorkspace.getLocationURI());
+
+	StringBuilder sb = new StringBuilder();
+	StringBuilder customCode = new StringBuilder();
+	String delim = System.getProperty("line.separator");
+	try {
+		Scanner scanner = new Scanner(mainFile);
+		String line = "";
+		while(scanner.hasNextLine()){
+			
+			line = scanner.nextLine();
+			if(line.contains("Custom Code Start 1")){
+				customCode.append("\t").append("String dfmAboutResult = HelloDfm.helloDfm(server,username,password);").append(delim);
+				customCode.append(line).append(delim);
+				sb.append(customCode).append(delim);
+			}else {
+				sb.append(line).append(delim);
+			}
+			
+		}
+	} catch (FileNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	System.out.println(sb.toString());
+	//Overwrite the main java file with modified contents.
+	String mainfilePath = mainFile.getAbsolutePath();
+	try {
+		BufferedWriter outputStream = new BufferedWriter(new FileWriter(mainfilePath));
+		outputStream.write(sb.toString());
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+
 	
-	
-//	try {
-//		Scanner scanner = new Scanner(mainFile);
-//		while(scanner.hasNextLine()){
-//			String line = scanner.nextLine();
-//			System.out.println("Line:" +line);
-//		}
-//	} catch (FileNotFoundException e) {
-//		// TODO Auto-generated catch block
-//		e.printStackTrace();
-//	}
-    
 }
 
 }
