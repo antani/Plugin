@@ -21,6 +21,7 @@ public class DfmAbout extends Activity {
 	private int sortIndex;
 	private String injectStart="/*Custom Code Start 1 */";
 	private String injectEnd="/*Custom Code End 1 */";
+	private static int index = 0;
 	protected static IPropertyDescriptor[] descriptors;
 
 	public static final String NAME = "name"; //$NON-NLS-1$
@@ -156,6 +157,18 @@ public class DfmAbout extends Activity {
 	 */
 	public void setInjectStart(String injectStart) {
 		this.injectStart = injectStart;
+	}
+	/**
+	 * @return the index
+	 */
+	public static int getIndex() {
+		return index;
+	}
+	/**
+	 * @param index the index to set
+	 */
+	public static void setIndex(int index) {
+		DfmAbout.index = index;
 	}
 	
 	

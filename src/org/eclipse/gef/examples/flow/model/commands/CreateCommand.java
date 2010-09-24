@@ -37,6 +37,7 @@ public void execute() {
 	String selectedTask = showTaskList();
 	if(selectedTask != null){
 		child.setName(selectedTask);
+		child.setIndex(child.getIndex()+1);
 	}
 	if (index > 0)
 		parent.addChild(child, index);

@@ -36,6 +36,7 @@ private List inputs = new ArrayList();
 private String name = "Activity";
 private List outputs = new ArrayList();
 private int sortIndex;
+private static int index;
 
 public Activity() {}
 public Activity(String s) {
@@ -149,4 +150,17 @@ public boolean isPropertySet(Object id)
 public void resetPropertyValue(Object id)
 {
 }
+/**
+ * @return the index
+ */
+public static int getIndex() {
+	return index;
+}
+/**
+ * @param index the index to set
+ */
+public static void setIndex(int index) {
+	Activity.index = index;
+}
+
 }

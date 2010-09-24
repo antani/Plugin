@@ -22,6 +22,7 @@ public class Task extends Activity
 protected static IPropertyDescriptor[] descriptors;
 
 public static final String NAME = "NetApp Task"; //$NON-NLS-1$
+
 static {
 	descriptors = new IPropertyDescriptor[] {
 		new TextPropertyDescriptor(NAME, "Name")};
@@ -32,6 +33,8 @@ private List inputs = new ArrayList();
 private String name = "NetApp Task";
 private List outputs = new ArrayList();
 private int sortIndex;
+
+
 
 public Task() {}
 public Task(String s) {
@@ -136,5 +139,4 @@ public String toString() {
 	className = className.substring(className.lastIndexOf('.') + 1);
 	return className + "(" + name +")";
 }
-
 }

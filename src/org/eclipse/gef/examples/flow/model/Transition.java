@@ -43,10 +43,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
-/**
- * @author hudsonr
- * Created on Jun 30, 2003
- */
 public class Transition extends FlowElement {
 
 public Activity source, target;
@@ -78,21 +74,11 @@ public Transition(Activity source, Activity target) {
 	//Find main file
 	String base = Platform.getBundle(config.getPluginId()).getEntry("/").toString();
     String relativeUri = "com/netapp/nmsdk/flow/NetAppFlowMain.java";
-//    String f="";
-//	try {
-//		f = Platform.resolve(Platform.find(Platform.getBundle(config.getPluginId()), new Path(relativeUri))).getFile();
-//	} catch (IOException e1) {
-//		// TODO Auto-generated catch block
-//		e1.printStackTrace();
-//	}
 //    //IResource 
 	System.out.println("base+rel" + base+relativeUri);
-//	System.out.println("f - " + f);    
 	IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 	System.out.println("root workspace : " + root.getName());
-	//System.out.println("project name : " + root.getProject().getName());
 	IResource resourceInRuntimeWorkspace = root.findMember("testplugin/com/netapp/nmsdk/flow/NetAppFlowMain.java");
-	//System.out.println(resourceInRuntimeWorkspace.getName());
 	File mainFile = new File(resourceInRuntimeWorkspace.getLocationURI());
 
 	StringBuilder sb = new StringBuilder();
@@ -105,8 +91,11 @@ public Transition(Activity source, Activity target) {
 			
 			line = scanner.nextLine();
 			if(line.contains("Custom Code Start 1")){
-				customCode.append("\t").append("String dfmAboutResult = HelloDfm.helloDfm(server,username,password);").append(delim);
-				customCode.append(line).append(delim);
+				customCode.append("\t\t").append("//"+target.getName()+" Start ").append(target.getIndex()).append(delim);
+				customCode.append("\t\t").append("String dfmAboutResult"+target.getIndex()+" = HelloDfm.helloDfm(server,username,password);").append(delim);
+				customCode.append("\t\t").append("System.out.println(\"Result of HelloDfm -\"+dfmAboutResult"+target.getIndex()+" )").append(delim);
+				customCode.append("\t\t").append("//"+target.getName()+" End ").append(target.getIndex()).append(delim);
+				customCode.append(line).append(delim);				
 				sb.append(customCode).append(delim);
 			}else {
 				sb.append(line).append(delim);
@@ -120,14 +109,25 @@ public Transition(Activity source, Activity target) {
 	System.out.println(sb.toString());
 	//Overwrite the main java file with modified contents.
 	String mainfilePath = mainFile.getAbsolutePath();
+	BufferedWriter outputStream = null;
 	try {
-		BufferedWriter outputStream = new BufferedWriter(new FileWriter(mainfilePath));
+		outputStream = new BufferedWriter(new FileWriter(mainfilePath));
 		outputStream.write(sb.toString());
+		
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-
+	finally
+	{
+		try {
+			outputStream.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	}
+	
 	
 }
 

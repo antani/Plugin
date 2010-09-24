@@ -15,6 +15,7 @@ public class CodegenVariables {
 	private String mAuthor = "";
 	private String mVersion = "";
 	
+	
 	public String getHost() {
 		return host;
 	}

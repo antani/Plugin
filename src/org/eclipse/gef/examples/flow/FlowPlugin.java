@@ -21,6 +21,7 @@ public class FlowPlugin extends AbstractUIPlugin {
 	 * The single instance of this plug-in runtime class.
 	 */
 	private static FlowPlugin sPlugin = null;
+	
 
 	
 /**
