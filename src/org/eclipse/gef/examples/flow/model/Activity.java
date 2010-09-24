@@ -10,9 +10,20 @@
  *******************************************************************************/
 package org.eclipse.gef.examples.flow.model;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.gef.examples.flow.codegen.Config;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
@@ -105,6 +116,7 @@ public int getSortIndex() {
 
 public void removeInput(Transition transition) {
 	inputs.remove(transition);
+	
 	fireStructureChange(INPUTS,transition);
 }
 
@@ -162,5 +174,4 @@ public static int getIndex() {
 public static void setIndex(int index) {
 	Activity.index = index;
 }
-
 }

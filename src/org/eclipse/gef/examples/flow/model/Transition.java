@@ -74,7 +74,6 @@ public Transition(Activity source, Activity target) {
 	//Find main file
 	String base = Platform.getBundle(config.getPluginId()).getEntry("/").toString();
     String relativeUri = "com/netapp/nmsdk/flow/NetAppFlowMain.java";
-//    //IResource 
 	System.out.println("base+rel" + base+relativeUri);
 	IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 	System.out.println("root workspace : " + root.getName());
