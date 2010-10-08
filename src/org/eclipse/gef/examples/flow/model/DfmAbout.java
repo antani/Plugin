@@ -32,7 +32,7 @@ public class DfmAbout extends Activity {
 	private int sortIndex;
 	private String injectStart="/*Custom Code Start 1 */";
 	private String injectEnd="/*Custom Code End 1 */";
-	private static int index = 0;
+	
 	protected static IPropertyDescriptor[] descriptors;
 
 	public static final String NAME = "name"; //$NON-NLS-1$
@@ -112,8 +112,10 @@ public class DfmAbout extends Activity {
 
 	public void removeInput(Transition transition) {
 		inputs.remove(transition);
-		cleanCode(transition);
 		fireStructureChange(INPUTS,transition);
+		int i = Config.getActivityIndex();
+		Config.setActivityIndex(i-1);
+		cleanCode(transition);
 	}
 
 	public void removeOutput(Transition transition) {
@@ -170,20 +172,10 @@ public class DfmAbout extends Activity {
 	public void setInjectStart(String injectStart) {
 		this.injectStart = injectStart;
 	}
-	/**
-	 * @return the index
-	 */
-	public static int getIndex() {
-		return index;
-	}
-	/**
-	 * @param index the index to set
-	 */
-	public static void setIndex(int index) {
-		DfmAbout.index = index;
-	}
+	
 	private void cleanCode(Transition transition) {
 		//Find main file
+		
 		Config config = Config.getInstance();
 		String base = Platform.getBundle(config.getPluginId()).getEntry("/").toString();
 	    String relativeUri = "com/netapp/nmsdk/flow/NetAppFlowMain.java";
@@ -194,7 +186,7 @@ public class DfmAbout extends Activity {
 		File mainFile = new File(resourceInRuntimeWorkspace.getLocationURI());
 
 		StringBuilder sb = new StringBuilder();
-		StringBuilder customCode = new StringBuilder();
+		//StringBuilder customCode = new StringBuilder();
 		String delim = System.getProperty("line.separator");
 		int index = transition.target.getIndex();
 		String start = "//"+transition.target.getName()+" Start "+index;

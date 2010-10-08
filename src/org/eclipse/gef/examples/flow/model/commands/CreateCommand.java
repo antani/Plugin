@@ -12,6 +12,7 @@ package org.eclipse.gef.examples.flow.model.commands;
 
 import org.eclipse.gef.commands.Command;
 
+import org.eclipse.gef.examples.flow.codegen.Config;
 import org.eclipse.gef.examples.flow.model.Activity;
 import org.eclipse.gef.examples.flow.model.StructuredActivity;
 import org.eclipse.gef.examples.flow.model.Task;
@@ -37,7 +38,9 @@ public void execute() {
 	String selectedTask = showTaskList();
 	if(selectedTask != null){
 		child.setName(selectedTask);
-		child.setIndex(child.getIndex()+1);
+		int i = Config.getActivityIndex();
+		child.setIndex(i+1);
+		Config.setActivityIndex(i+1);
 	}
 	if (index > 0)
 		parent.addChild(child, index);

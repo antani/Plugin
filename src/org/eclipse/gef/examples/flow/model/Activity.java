@@ -47,12 +47,13 @@ private List inputs = new ArrayList();
 private String name = "Activity";
 private List outputs = new ArrayList();
 private int sortIndex;
-private static int index;
+private static int index = 0;
 
 public Activity() {}
 public Activity(String s) {
-	setName(s);
+	setName(s);	
 }
+
 
 public void addInput(Transition transition) {
 	inputs.add(transition);

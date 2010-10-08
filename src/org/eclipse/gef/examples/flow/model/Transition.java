@@ -50,7 +50,7 @@ public Activity source, target;
 public Transition(Activity source, Activity target) {
 	this.source = source;
 	this.target = target;
-	System.out.println("Created Transition between "+source.getName() + " and  " + target.getName());	
+	System.out.println("Created Transition between "+source.getName()+source.getIndex()+ " and  " + target.getName()+target.getIndex());	
 	source.addOutput(this);
 	target.addInput(this);
 	Display display = Display.getDefault();

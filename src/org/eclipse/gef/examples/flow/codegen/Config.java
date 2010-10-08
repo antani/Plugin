@@ -154,6 +154,8 @@ public class Config {
 	private String targetFile;
 	private String packageName;
 	private boolean forceOverwrite = true;
+	private static int activityIndex = 0;
+	
 
 	/**
 	 * Constructs an uninitialized instance.
@@ -206,6 +208,20 @@ public class Config {
 	      
 
 	  }
+
+	/**
+	 * @return the activityIndex
+	 */
+	public static int getActivityIndex() {
+		return activityIndex;
+	}
+
+	/**
+	 * @param activityIndex the activityIndex to set
+	 */
+	public static void setActivityIndex(int activityIndex) {
+		Config.activityIndex = activityIndex;
+	}
 	  
 //	private String getURI(String pluginId, String relativeUri){
 //		  Bundle bundle = Platform.getBundle(pluginId); 
