@@ -32,6 +32,7 @@ public class DfmAbout extends Activity {
 	private int sortIndex;
 	private String injectStart="/*Custom Code Start 1 */";
 	private String injectEnd="/*Custom Code End 1 */";
+	private int index ;
 	
 	protected static IPropertyDescriptor[] descriptors;
 
@@ -45,7 +46,11 @@ public class DfmAbout extends Activity {
 			new TextPropertyDescriptor(LOC, "Location")};
 	}
 	
-	public DfmAbout() { }
+	public DfmAbout() 
+	{
+		index = Config.getActivityIndex();
+		Config.addActivityIndex();
+	}
 	public DfmAbout(String s){
 		setName(s);
 	}
@@ -112,9 +117,7 @@ public class DfmAbout extends Activity {
 
 	public void removeInput(Transition transition) {
 		inputs.remove(transition);
-		fireStructureChange(INPUTS,transition);
-		int i = Config.getActivityIndex();
-		Config.setActivityIndex(i-1);
+		fireStructureChange(INPUTS,transition);		
 		cleanCode(transition);
 	}
 
@@ -188,9 +191,9 @@ public class DfmAbout extends Activity {
 		StringBuilder sb = new StringBuilder();
 		//StringBuilder customCode = new StringBuilder();
 		String delim = System.getProperty("line.separator");
-		int index = transition.target.getIndex();
-		String start = "//"+transition.target.getName()+" Start "+index;
-		String end   = "//"+transition.target.getName()+" End "+index;
+		int i = super.getActivityIndex();
+		String start = "//"+transition.target.getName()+" Start "+i;
+		String end   = "//"+transition.target.getName()+" End "+i;
 		
 		try {
 			Scanner scanner = new Scanner(mainFile);
@@ -234,6 +237,5 @@ public class DfmAbout extends Activity {
 			}	
 		}
 	}
-
 	
 }

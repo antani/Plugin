@@ -47,9 +47,12 @@ private List inputs = new ArrayList();
 private String name = "Activity";
 private List outputs = new ArrayList();
 private int sortIndex;
-private static int index = 0;
-
-public Activity() {}
+private int index;
+private int activityIndex = 0 ;
+public Activity() {
+	activityIndex = Config.getActivityIndex();
+	Config.addActivityIndex();
+}
 public Activity(String s) {
 	setName(s);	
 }
@@ -116,9 +119,9 @@ public int getSortIndex() {
 }
 
 public void removeInput(Transition transition) {
-	inputs.remove(transition);
-	
+	inputs.remove(transition);	
 	fireStructureChange(INPUTS,transition);
+	cleanCode(transition);
 }
 
 public void removeOutput(Transition transition) {
@@ -166,13 +169,79 @@ public void resetPropertyValue(Object id)
 /**
  * @return the index
  */
-public static int getIndex() {
-	return index;
+
+private void cleanCode(Transition transition) {
+	//Find main file
+	
+	Config config = Config.getInstance();
+	String base = Platform.getBundle(config.getPluginId()).getEntry("/").toString();
+    String relativeUri = "com/netapp/nmsdk/flow/NetAppFlowMain.java";
+	System.out.println("base+rel" + base+relativeUri);
+	IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+	System.out.println("root workspace : " + root.getName());
+	IResource resourceInRuntimeWorkspace = root.findMember("testplugin/com/netapp/nmsdk/flow/NetAppFlowMain.java");
+	File mainFile = new File(resourceInRuntimeWorkspace.getLocationURI());
+
+	StringBuilder sb = new StringBuilder();
+	//StringBuilder customCode = new StringBuilder();
+	String delim = System.getProperty("line.separator");
+	int i = this.getActivityIndex();
+	String start = "//"+transition.target.getName()+" Start "+i;
+	String end   = "//"+transition.target.getName()+" End "+i;
+	
+	try {
+		Scanner scanner = new Scanner(mainFile);
+		String line = "";
+		while(scanner.hasNextLine()){
+			
+			line = scanner.nextLine();
+			if(line.contains(start)){
+				//Ignore the lines till we reach end.
+				while(!line.contains(end)){
+					line = scanner.nextLine();
+				}
+			}else {
+				sb.append(line).append(delim);
+			}
+			
+		}
+	} catch (FileNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	System.out.println(sb.toString());
+	//Overwrite the main java file with modified contents.
+	String mainfilePath = mainFile.getAbsolutePath();
+	BufferedWriter outputStream = null;
+	try {
+		outputStream = new BufferedWriter(new FileWriter(mainfilePath));
+		outputStream.write(sb.toString());
+		
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	finally
+	{
+		try {
+			outputStream.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	}
 }
 /**
- * @param index the index to set
+ * @return the activityIndex
  */
-public static void setIndex(int index) {
-	Activity.index = index;
+public int getActivityIndex() {
+	return activityIndex;
 }
+/**
+ * @param activityIndex the activityIndex to set
+ */
+public void setActivityIndex(int activityIndex) {
+	this.activityIndex = activityIndex;
+}
+
 }

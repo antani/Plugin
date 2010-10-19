@@ -222,7 +222,12 @@ public class Config {
 	public static void setActivityIndex(int activityIndex) {
 		Config.activityIndex = activityIndex;
 	}
-	  
+	public static void addActivityIndex(){
+		activityIndex++;
+	}
+	public static void minusActivityIndex(){
+		activityIndex--;
+	}  
 //	private String getURI(String pluginId, String relativeUri){
 //		  Bundle bundle = Platform.getBundle(pluginId); 
 //		  Path path = new Path("templates/NetAppFlowMain.javajet"); 

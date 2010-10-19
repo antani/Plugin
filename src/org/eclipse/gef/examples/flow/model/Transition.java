@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -50,7 +51,7 @@ public Activity source, target;
 public Transition(Activity source, Activity target) {
 	this.source = source;
 	this.target = target;
-	System.out.println("Created Transition between "+source.getName()+source.getIndex()+ " and  " + target.getName()+target.getIndex());	
+	System.out.println("Created Transition between "+source.getName()+source.getActivityIndex()+ " and  " + target.getName()+target.getActivityIndex());	
 	source.addOutput(this);
 	target.addInput(this);
 	Display display = Display.getDefault();
@@ -86,14 +87,16 @@ public Transition(Activity source, Activity target) {
 	try {
 		Scanner scanner = new Scanner(mainFile);
 		String line = "";
+		int x = target.getActivityIndex();
+		
 		while(scanner.hasNextLine()){
 			
 			line = scanner.nextLine();
 			if(line.contains("Custom Code Start 1")){
-				customCode.append("\t\t").append("//"+target.getName()+" Start ").append(target.getIndex()).append(delim);
-				customCode.append("\t\t").append("String dfmAboutResult"+target.getIndex()+" = HelloDfm.helloDfm(server,username,password);").append(delim);
-				customCode.append("\t\t").append("System.out.println(\"Result of HelloDfm -\"+dfmAboutResult"+target.getIndex()+" )").append(delim);
-				customCode.append("\t\t").append("//"+target.getName()+" End ").append(target.getIndex()).append(delim);
+				customCode.append("\t\t").append("//"+target.getName()+" Start ").append(x).append(delim);
+				customCode.append("\t\t").append("String dfmAboutResult"+target.getActivityIndex()+" = HelloDfm.helloDfm(server,username,password);").append(delim);
+				customCode.append("\t\t").append("System.out.println(\"Result of HelloDfm -\"+dfmAboutResult"+x+" )").append(delim);
+				customCode.append("\t\t").append("//"+target.getName()+" End ").append(x).append(delim);
 				customCode.append(line).append(delim);				
 				sb.append(customCode).append(delim);
 			}else {

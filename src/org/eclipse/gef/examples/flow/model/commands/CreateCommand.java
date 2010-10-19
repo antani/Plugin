@@ -28,7 +28,7 @@ public class CreateCommand extends Command {
 
 private StructuredActivity parent;
 private Activity child;
-private int index = -1;
+private int index = 0;
 
 /**
  * @see org.eclipse.gef.commands.Command#execute()
@@ -38,14 +38,15 @@ public void execute() {
 	String selectedTask = showTaskList();
 	if(selectedTask != null){
 		child.setName(selectedTask);
-		int i = Config.getActivityIndex();
-		child.setIndex(i+1);
-		Config.setActivityIndex(i+1);
+		//child.setIndex(index);
 	}
+	
 	if (index > 0)
 		parent.addChild(child, index);
 	else
 		parent.addChild(child);
+	
+	
 }
 
 private String showTaskList() {
