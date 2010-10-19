@@ -77,10 +77,10 @@ private static PaletteContainer createComponentsDrawer() {
 	combined = new CombinedTemplateCreationEntry(
 			"DFM About - Version",
 			"DFM About - Version",
-			DfmAbout.class,
-			new SimpleFactory(DfmAbout.class),
+			Activity.class,
+			new SimpleFactory(Activity.class),
 			ImageDescriptor.createFromFile(FlowPlugin.class, "images/gear16.gif"), 
-			ImageDescriptor.createFromFile(DfmAbout.class, "images/gear16.gif")
+			ImageDescriptor.createFromFile(Activity.class, "images/gear16.gif")
 		);
 	entries.add(combined);
 	
