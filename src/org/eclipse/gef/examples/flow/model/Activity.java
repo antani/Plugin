@@ -198,7 +198,8 @@ private void cleanCode(Transition transition) {
 			if(line.contains(start)){
 				//Ignore the lines till we reach end.
 				while(!line.contains(end)){
-					line = scanner.nextLine();
+					if(!line.equals(delim))
+						line = scanner.nextLine();
 				}
 			}else {
 				sb.append(line).append(delim);

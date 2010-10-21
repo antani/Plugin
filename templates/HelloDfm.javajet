@@ -4,7 +4,7 @@ import netapp.manage.*;
 public class HelloDfm
 {
 
-    private static String helloDfm(String host, String username, String password)
+    public static String helloDfm(String host, String username, String password)
     {
         try {
 			//Initialize connection to server, and

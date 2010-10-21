@@ -14,18 +14,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.SWT;
 
 
-/**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
 public class TaskList extends org.eclipse.swt.widgets.Dialog {
 
 	private Shell dialogShell;
@@ -100,7 +88,7 @@ public class TaskList extends org.eclipse.swt.widgets.Dialog {
 				TaskCmbLData.height = 21;
 				TaskCmb.setLayoutData(TaskCmbLData);
 				TaskCmb.setText("NetAppTasks");
-				TaskCmb.setItems(new java.lang.String[] {"HelloDfm"," Task1"," Task2"});
+				TaskCmb.setItems(new java.lang.String[] {"HelloDfm","ListAllDataset","Task2"});
 				selectedTask ="";
 				TaskCmb.addSelectionListener(new SelectionAdapter() {
 					public void widgetSelected(SelectionEvent evt) {

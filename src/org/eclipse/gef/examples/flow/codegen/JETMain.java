@@ -126,12 +126,12 @@ public class JETMain {
 	      Config config = getConfig();
 	      String pluginId = "org.netapp.floweditor";
 	      String base = Platform.getBundle(pluginId).getEntry("/").toString();
-	      Path path = new Path("templates/HelloDfm.javajet"); 
+	      Path path = new Path("templates/"+fileName+"jet"); 
 	      URL fileURL = Platform.find(Platform.getBundle(pluginId), path);
 	      
 	      System.out.println("File path : " + fileURL.toString());
 	      
-	      String relativeUri = "templates/HelloDfm.javajet";
+	      String relativeUri = "templates/"+fileName+"jet";
 	      
 	      String templateFullUri= config.getTemplateFullUri();
 	      System.out.println("templateFullUri -- "+ base+relativeUri);	      

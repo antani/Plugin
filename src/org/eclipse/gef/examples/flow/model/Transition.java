@@ -17,6 +17,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import org.eclipse.emf.common.util.BasicMonitor;
@@ -38,6 +39,7 @@ import org.eclipse.gef.examples.flow.codegen.Config;
 import org.eclipse.gef.examples.flow.codegen.JETMain;
 import org.eclipse.gef.examples.flow.ui.dialog.DfmAboutDialog;
 import org.eclipse.gef.examples.flow.ui.dialog.DfmAboutDlg;
+import org.eclipse.gef.examples.flow.util.SourceUtil;
 
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.SWT;
@@ -47,8 +49,14 @@ import org.eclipse.swt.widgets.Shell;
 public class Transition extends FlowElement {
 
 public Activity source, target;
+public static HashMap fileList = new HashMap();
+
 
 public Transition(Activity source, Activity target) {
+	
+	fileList.put("HelloDfm", "HelloDfm.java");	
+	fileList.put("ListAllDataset", "DatasetList.java");
+	
 	this.source = source;
 	this.target = target;
 	System.out.println("Created Transition between "+source.getName()+source.getActivityIndex()+ " and  " + target.getName()+target.getActivityIndex());	
@@ -61,13 +69,17 @@ public Transition(Activity source, Activity target) {
 	Config config = Config.getInstance();
 	JETMain gateway = new JETMain(config);
     String content = null;
+    String targetKey = target.getName().trim();
+	String filename = (String)fileList.get(targetKey);
 	try {
-		content = gateway.generateAll(null,"");
+		
+		System.out.println("Value of : file list : " + fileList.get(targetKey));
+		content = gateway.generateAll(null,filename);
 	} catch (CoreException e) {
 		e.printStackTrace();
 	}
 	try {		
-		config.setTargetFile("HelloDfm.java");
+		config.setTargetFile(filename);
 		IFile file = gateway.save(null, content.getBytes());
 	} catch (CoreException e) {
 		e.printStackTrace();
@@ -84,21 +96,17 @@ public Transition(Activity source, Activity target) {
 	StringBuilder sb = new StringBuilder();
 	StringBuilder customCode = new StringBuilder();
 	String delim = System.getProperty("line.separator");
+	String line = "";
 	try {
 		Scanner scanner = new Scanner(mainFile);
-		String line = "";
+		
 		int x = target.getActivityIndex();
 		
 		while(scanner.hasNextLine()){
-			
+			SourceUtil src = new SourceUtil();
 			line = scanner.nextLine();
 			if(line.contains("Custom Code Start 1")){
-				customCode.append("\t\t").append("//"+target.getName()+" Start ").append(x).append(delim);
-				customCode.append("\t\t").append("String dfmAboutResult"+target.getActivityIndex()+" = HelloDfm.helloDfm(server,username,password);").append(delim);
-				customCode.append("\t\t").append("System.out.println(\"Result of HelloDfm -\"+dfmAboutResult"+x+" )").append(delim);
-				customCode.append("\t\t").append("//"+target.getName()+" End ").append(x).append(delim);
-				customCode.append(line).append(delim);				
-				sb.append(customCode).append(delim);
+				sb.append(src.generate(targetKey, x)).append(delim).append("/*Custom Code Start 1*/").append(delim);
 			}else {
 				sb.append(line).append(delim);
 			}
