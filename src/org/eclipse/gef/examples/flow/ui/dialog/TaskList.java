@@ -88,7 +88,7 @@ public class TaskList extends org.eclipse.swt.widgets.Dialog {
 				TaskCmbLData.height = 21;
 				TaskCmb.setLayoutData(TaskCmbLData);
 				TaskCmb.setText("NetAppTasks");
-				TaskCmb.setItems(new java.lang.String[] {"HelloDfm","ListAllDataset","Task2"});
+				TaskCmb.setItems(new java.lang.String[] {"HelloDfm","ListAllDataset","PrintList"});
 				selectedTask ="";
 				TaskCmb.addSelectionListener(new SelectionAdapter() {
 					public void widgetSelected(SelectionEvent evt) {

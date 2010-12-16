@@ -7,10 +7,12 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Rectangle;
 
 public class DfmAboutDlg extends org.eclipse.swt.widgets.Dialog {
 
@@ -22,9 +24,9 @@ public class DfmAboutDlg extends org.eclipse.swt.widgets.Dialog {
 	public static void main(String[] args) {
 		try {
 			Display display = Display.getDefault();
-			Shell shell = new Shell(display);
+			Shell shell = new Shell(display);			
 			DfmAboutDlg inst = new DfmAboutDlg(shell, SWT.NULL);
-			inst.open();
+			inst.open("test text");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -34,25 +36,26 @@ public class DfmAboutDlg extends org.eclipse.swt.widgets.Dialog {
 		super(parent, style);
 	}
 
-	public void open() {
+	public void open(String text) {
 		try {
+			Display display = Display.getDefault();
 			Shell parent = getParent();
-			dialogShell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
-
+			// | SWT.APPLICATION_MODAL		
+			dialogShell = new Shell(parent, SWT.SHELL_TRIM);
 			dialogShell.setLayout(new FormLayout());
 			dialogShell.setText("DFM About - Output(s)");
 			dialogShell.layout();
-			dialogShell.pack();			
-			dialogShell.setSize(208, 93);
+			dialogShell.pack();
+			dialogShell.setSize(608, 93);
 			{
 				label1 = new Label(dialogShell, SWT.NONE);
 				FormData label1LData = new FormData();
 				label1LData.left =  new FormAttachment(0, 1000, 12);
 				label1LData.top =  new FormAttachment(0, 1000, 12);
-				label1LData.width = 181;
+				label1LData.width = 600;
 				label1LData.height = 13;
 				label1.setLayoutData(label1LData);
-				label1.setText("DFM Version returns a string value.");
+				label1.setText(text);
 			}
 			{
 				Close = new Button(dialogShell, SWT.PUSH | SWT.CENTER);
@@ -71,9 +74,15 @@ public class DfmAboutDlg extends org.eclipse.swt.widgets.Dialog {
 					}
 				});
 			}
-			dialogShell.setLocation(getParent().toDisplay(100, 100));
+			Monitor primary = display.getPrimaryMonitor();
+		    Rectangle bounds = primary.getBounds();
+		    Rectangle rect = dialogShell.getBounds();
+		    int x = bounds.x + (bounds.width - rect.width) / 2;
+		    int y = bounds.y + (bounds.height - rect.height) / 2;
+		    dialogShell.setLocation(x, y);
+			//dialogShell.setLocation(getParent().toDisplay(100, 100));
 			dialogShell.open();
-			Display display = dialogShell.getDisplay();
+			
 			while (!dialogShell.isDisposed()) {
 				if (!display.readAndDispatch())
 					display.sleep();

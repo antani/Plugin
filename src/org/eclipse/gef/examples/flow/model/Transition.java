@@ -34,7 +34,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.common.util.Monitor;
+
 import org.eclipse.gef.examples.flow.codegen.Config;
 import org.eclipse.gef.examples.flow.codegen.JETMain;
 import org.eclipse.gef.examples.flow.ui.dialog.DfmAboutDialog;
@@ -43,29 +43,45 @@ import org.eclipse.gef.examples.flow.util.SourceUtil;
 
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Monitor;
 
 public class Transition extends FlowElement {
 
 public Activity source, target;
 public static HashMap fileList = new HashMap();
+public static HashMap returnList = new HashMap();
+public static HashMap returnTextList = new HashMap();
 
 
 public Transition(Activity source, Activity target) {
 	
 	fileList.put("HelloDfm", "HelloDfm.java");	
 	fileList.put("ListAllDataset", "DatasetList.java");
+	/*-------------------------------------------------------*/
+	returnList.put("ListAllDataset",Boolean.TRUE);
+	returnList.put("PrintList",Boolean.FALSE);
+	returnTextList.put("ListAllDataset", "ListAllDataset - activity returns a List type. You should use this list in the target activity.");
+	returnTextList.put("HelloDfm", "");	
+	returnTextList.put("PrintList", "");
+	/*-------------------------------------------------------*/
 	
 	this.source = source;
 	this.target = target;
 	System.out.println("Created Transition between "+source.getName()+source.getActivityIndex()+ " and  " + target.getName()+target.getActivityIndex());	
 	source.addOutput(this);
 	target.addInput(this);
-	Display display = Display.getDefault();
-	Shell shell = new Shell(display);
-	DfmAboutDlg inst = new DfmAboutDlg(shell, SWT.NULL);
-	inst.open();
+	//check if the destination activity is returning any payload
+	if(Boolean.TRUE.equals(returnList.get(target.getName()))) {
+		Display display = Display.getDefault();
+		Shell shell = new Shell(display);
+		DfmAboutDlg inst = new DfmAboutDlg(shell, SWT.NULL);
+		inst.open(returnTextList.get(target.getName())+"");	
+	}
+
+	
 	Config config = Config.getInstance();
 	JETMain gateway = new JETMain(config);
     String content = null;
