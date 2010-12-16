@@ -10,9 +10,20 @@
  *******************************************************************************/
 package org.eclipse.gef.examples.flow.model;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.gef.examples.flow.codegen.Config;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
@@ -104,6 +115,7 @@ public int getSortIndex() {
 public void removeInput(Transition transition) {
 	inputs.remove(transition);
 	fireStructureChange(INPUTS,transition);
+	cleanCode(transition);
 }
 
 public void removeOutput(Transition transition) {
@@ -139,4 +151,73 @@ public String toString() {
 	className = className.substring(className.lastIndexOf('.') + 1);
 	return className + "(" + name +")";
 }
+
+/**
+ * @return the index
+ */
+
+private void cleanCode(Transition transition) {
+	//Find main file
+	
+	Config config = Config.getInstance();
+	String base = Platform.getBundle(config.getPluginId()).getEntry("/").toString();
+    String relativeUri = "com/netapp/nmsdk/flow/NetAppFlowMain.java";
+	System.out.println("base+rel" + base+relativeUri);
+	IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+	System.out.println("root workspace : " + root.getName());
+	IResource resourceInRuntimeWorkspace = root.findMember("testplugin/com/netapp/nmsdk/flow/NetAppFlowMain.java");
+	File mainFile = new File(resourceInRuntimeWorkspace.getLocationURI());
+
+	StringBuilder sb = new StringBuilder();
+	//StringBuilder customCode = new StringBuilder();
+	String delim = System.getProperty("line.separator");
+	int i = this.getActivityIndex();
+	String start = "//"+transition.target.getName()+" Start "+i;
+	String end   = "//"+transition.target.getName()+" End "+i;
+	
+	try {
+		Scanner scanner = new Scanner(mainFile);
+		String line = "";
+		while(scanner.hasNextLine()){
+			
+			line = scanner.nextLine();
+			if(line.contains(start)){
+				//Ignore the lines till we reach end.
+				while(!line.contains(end)){
+					if(!line.equals(delim))
+						line = scanner.nextLine();
+				}
+			}else {
+				sb.append(line).append(delim);
+			}
+			
+		}
+	} catch (FileNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	System.out.println(sb.toString());
+	//Overwrite the main java file with modified contents.
+	String mainfilePath = mainFile.getAbsolutePath();
+	BufferedWriter outputStream = null;
+	try {
+		outputStream = new BufferedWriter(new FileWriter(mainfilePath));
+		outputStream.write(sb.toString());
+		
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	finally
+	{
+		try {
+			outputStream.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	}
+}
+
+
 }
