@@ -49,6 +49,10 @@ private List outputs = new ArrayList();
 private int sortIndex;
 private int index;
 private int activityIndex = 0 ;
+private boolean returnPayload = false;
+private String payloadType;
+private String payloadVariableName;
+
 public Activity() {
 	activityIndex = Config.getActivityIndex();
 	Config.addActivityIndex();
@@ -244,5 +248,40 @@ public int getActivityIndex() {
 public void setActivityIndex(int activityIndex) {
 	this.activityIndex = activityIndex;
 }
-
+/**
+ * @return the returnPayload
+ */
+public boolean isReturnPayload() {
+	return returnPayload;
+}
+/**
+ * @param returnPayload the returnPayload to set
+ */
+public void setReturnPayload(boolean returnPayload) {
+	this.returnPayload = returnPayload;
+}
+/**
+ * @return the payloadType
+ */
+public String getPayloadType() {
+	return payloadType;
+}
+/**
+ * @param payloadType the payloadType to set
+ */
+public void setPayloadType(String payloadType) {
+	this.payloadType = payloadType;
+}
+/**
+ * @return the payloadVariableName
+ */
+public String getPayloadVariableName() {
+	return payloadVariableName;
+}
+/**
+ * @param payloadVariableName the payloadVariableName to set
+ */
+public void setPayloadVariableName(String payloadVariableName) {
+	this.payloadVariableName = payloadVariableName;
+}
 }

@@ -75,10 +75,11 @@ public Transition(Activity source, Activity target) {
 	target.addInput(this);
 	//check if the destination activity is returning any payload
 	if(Boolean.TRUE.equals(returnList.get(target.getName()))) {
-		Display display = Display.getDefault();
-		Shell shell = new Shell(display);
-		DfmAboutDlg inst = new DfmAboutDlg(shell, SWT.NULL);
-		inst.open(returnTextList.get(target.getName())+"");	
+//		Display display = Display.getDefault();
+//		Shell shell = new Shell(display);
+//		DfmAboutDlg inst = new DfmAboutDlg(shell, SWT.NULL);
+//		inst.open(returnTextList.get(target.getName())+"");	
+		target.setReturnPayload(true); //Indicate that this target can return a payload.
 	}
 
 	
@@ -87,19 +88,24 @@ public Transition(Activity source, Activity target) {
     String content = null;
     String targetKey = target.getName().trim();
 	String filename = (String)fileList.get(targetKey);
-	try {
-		
-		System.out.println("Value of : file list : " + fileList.get(targetKey));
-		content = gateway.generateAll(null,filename);
-	} catch (CoreException e) {
-		e.printStackTrace();
-	}
-	try {		
-		config.setTargetFile(filename);
-		IFile file = gateway.save(null, content.getBytes());
-	} catch (CoreException e) {
-		e.printStackTrace();
-	}
+	//Its not always necessray to have a separate source file
+    //Call generateAll only if the separate source file needs to be generated  
+	if(filename != null) {
+		try {
+			
+				System.out.println("Value of : file list : " + fileList.get(targetKey));
+				content = gateway.generateAll(null,filename);
+			
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+		try {		
+			config.setTargetFile(filename);
+			IFile file = gateway.save(null, content.getBytes());
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+    }
 	//Find main file
 	String base = Platform.getBundle(config.getPluginId()).getEntry("/").toString();
     String relativeUri = "com/netapp/nmsdk/flow/NetAppFlowMain.java";
@@ -122,7 +128,7 @@ public Transition(Activity source, Activity target) {
 			SourceUtil src = new SourceUtil();
 			line = scanner.nextLine();
 			if(line.contains("Custom Code Start 1")){
-				sb.append(src.generate(targetKey, x)).append(delim).append("/*Custom Code Start 1*/").append(delim);
+				sb.append(src.generate(targetKey, x, source,target)).append(delim).append("/*Custom Code Start 1*/").append(delim);
 			}else {
 				sb.append(line).append(delim);
 			}

@@ -38,12 +38,10 @@ public class DfmAboutDlg extends org.eclipse.swt.widgets.Dialog {
 
 	public void open(String text) {
 		try {
-			/*Display display = Display.getDefault();
-			Shell parent = getParent();*/
-			Display display = new Display();
-			dialogShell = new Shell(display, SWT.SHELL_TRIM);
+			Display display = Display.getDefault();
+			Shell parent = getParent();
 			// | SWT.APPLICATION_MODAL		
-			//dialogShell = new Shell(parent, SWT.SHELL_TRIM);
+			dialogShell = new Shell(parent, SWT.SHELL_TRIM);
 			dialogShell.setLayout(new FormLayout());
 			dialogShell.setText("DFM About - Output(s)");
 			dialogShell.layout();

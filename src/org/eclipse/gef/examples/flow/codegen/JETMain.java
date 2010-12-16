@@ -128,7 +128,6 @@ public class JETMain {
 	      String base = Platform.getBundle(pluginId).getEntry("/").toString();
 	      Path path = new Path("templates/"+fileName+"jet"); 
 	      URL fileURL = Platform.find(Platform.getBundle(pluginId), path);
-	      
 	      System.out.println("File path : " + fileURL.toString());
 	      
 	      String relativeUri = "templates/"+fileName+"jet";
